@@ -1,21 +1,25 @@
+#set some variables
 $txtfile = "C:\TEMP\missing_pic.txt"
 $missingItems = Get-Content $txtfile
 #$missingitems = "one off item"
 $SourceDirectory = "\\xxxxxxxxxxxxxxxxxxxx"
 $DestinationDirectory = "xxxxxxxxxxxxxx"
 
-#$Folders = Get-ChildItem -Recurse $SourceDirectory
+#pull in directory
+$Folders = Get-ChildItem -Recurse $SourceDirectory
 
+#search through for images
 foreach($item in $missingitems){
 $item
 $pics = $folders | Where{$_.Name -Match "$item" }
 
+#if image is found move to a folder.
 foreach($pic in $pics){
 $pic | copy-item -destination $DestinationDirectory
 $name = $pic.name
 $Testpath = "$DestinationDirectory\$name"
 
-
+#if image has been moved succesfully the write to log
 if (Test-Path $Testpath){
 $string = $name + " Has been copied Successfully"
 $string
