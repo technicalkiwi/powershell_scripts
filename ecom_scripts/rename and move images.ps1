@@ -48,13 +48,13 @@ Get-ChildItem $path | Copy-Item -destination "$userpath\alt"
 }
 
 
-#Rename files in alt Folder
+#Rename files in alt Model Folder
 $altmodelnum = 1
 foreach ($file in $AltModelFiles){
 $path = "C:\temp\images\$folder\alt-model\"
 $filename = "$folder" + "_prod_model_" + $altModelnum + ".jpg"
 rename-item -Path $path\$file -NewName $Filename
-$altnum = ($altmodelnum + 1) 
+$altmodelnum = ($altmodelnum + 1) 
 Get-ChildItem $path | Copy-Item -destination "$userpath\alt-model"
 }
 
