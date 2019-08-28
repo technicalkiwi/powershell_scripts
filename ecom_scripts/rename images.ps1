@@ -1,7 +1,7 @@
 #set some variables
 $txtfile = "C:\TEMP\missing_pic.txt"
-#$itemSkus = Get-Content $txtfile
-$itemSkus = "8137011", "8137014", "8136981"
+$itemSkus = Get-Content $txtfile
+#$itemSkus = "8137011", "8137014", "8136981"
 $mainDirectory = "C:\TEMP\images\main"
 $main_modelDirectory = "C:\TEMP\images\main-model"
 $altDirectory = "C:\TEMP\images\alt"
