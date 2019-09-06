@@ -3,6 +3,9 @@ $cred = get-credential
 #pulls in the commands from exchange server, and starts a remote session
 $Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI http://exchange2k10/Powershell -credential $cred
 
+#Imports the Exhange command set from the remote server
+Import-PSSession $Session -DisableNameChecking
+
 
 #pulls in user names from txt file
 $txt = "C:\temp\users.txt"
