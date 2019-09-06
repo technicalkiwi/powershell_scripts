@@ -27,10 +27,13 @@ $Global:mailbox = Read-Host "Enter mailbox the user is being granted access to"
 $Global:Automapping = Read-Host "Do you wish to Set Automapping (Y/N)"
 If($No -contains $Automapping){
     $automap = $false
-}else{ $automap = $true }
+}elseif($Yes -contains $Automapping){
+     $automap = $true 
+    }
 
-#Adds full access to user specified to the mailbox listed
+#Adds full access to user specified to the mailbox listed with automapping option
 Add-MailboxPermission -Identity $mailbox -User $user_access -AccessRights Fullaccess -InheritanceType all -Automapping $automap
+Write-Host "$user_access has been granted full permission on the mailbox $mailbox with automapping set to $automap"
 
 
 ####

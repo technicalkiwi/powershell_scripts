@@ -26,12 +26,12 @@ $SecMgr = "First Last"
 $PathLog = "\\enter\network\path"
 $Random = -join ((65..90) + (97..122) | Get-Random -Count 5 | % {[char]$_})
 $ProtectedUsers = "user1", "user2", "user3", "user4", "user5"
-$DTStamp = get-date -Format u | foreach {$_ -replace "z"}
+$DTStamp = get-date -Format u | ForEach-Object{$_ -replace "z"}
 
 # Welcome Banner
 Write-Host "##############################################"
 Write-Host "#                                            #"
-Write-Host "#   Welcome to the Terminate a User Script!  #"
+Write-Host "#   Welcome to the User Termination Script!  #"
 Write-Host "#                                            #"
 Write-Host "##############################################"
 Write-Host " "
