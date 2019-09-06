@@ -1,5 +1,9 @@
 #Add Access to Mailboxes on exchange.
 
+#Sets some Hard Coded Variables
+$No = "n", "N", "No", "NO"
+$Yes = "y", ",Y", "Yes", "YES"
+
 #Pops up a login gui asking for credentials, used to connect to the exchange server
 $cred = get-credential
 
@@ -14,20 +18,19 @@ Import-PSSession $Session -DisableNameChecking
 #----------------------------------
 
 #Sets the user that will be given permissions
-$user_access = "AD username here"
+$Global:User_access = Read-Host "Enter user being granted access"
+
+#Sets the mailbox to give permissions on
+$Global:mailbox = Read-Host "Enter mailbox the user is being granted access to"
 
 #Set Mailbox Automapping
-$automap = "$true"
+$Global:Automapping = Read-Host "Do you wish to Set Automapping (Y/N)"
+If($No -contains $Automapping){
+    $automap = $false
+}else{ $automap = $true }
 
-#Pulls in a text file of mailboxe, creates a useable PSobject
-#Uses AD username to Identify the mailboxes.
-$txt = "C:\temp\users.txt"
-$mailboxes = Get-Content $txt
-
-#Adds full access to "user_access" to each of the mailboxboxes listed in the text file.
-foreach( $mailbox in $mailboxes){
+#Adds full access to user specified to the mailbox listed
 Add-MailboxPermission -Identity $mailbox -User $user_access -AccessRights Fullaccess -InheritanceType all -Automapping $automap
-}
 
 
 ####
