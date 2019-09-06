@@ -6,7 +6,6 @@ $Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI ht
 #Imports the Exhange command set from the remote server
 Import-PSSession $Session -DisableNameChecking
 
-
 #pulls in user names from txt file
 $txt = "C:\temp\users.txt"
 $users = Get-Content $txt
@@ -15,7 +14,7 @@ $users = Get-Content $txt
 #runs through each user and exports a break down of the mailbox size to a txt file, 
 foreach($user in $users){
 $mailbox = Get-MailboxFolderStatistics  -Identity briscoes\$user
-$folders= ($mailbox | Select Name,FolderPath,FolderSize,FolderAndSubfolderSize )
+$folders= ($mailbox | Select-Object Name,FolderPath,FolderSize,FolderAndSubfolderSize )
 $user | Out-File c:\temp\emailfoldersize.txt -Append
 $folders | Out-File c:\temp\emailfoldersize.txt -Append
 
