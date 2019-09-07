@@ -9,7 +9,7 @@ foreach($computer in $computers){
  $screen = Get-WmiObject win32_desktopmonitor -computername $computer
 
 
- $M = $screen.screenwidth | measure
+ $M = $screen.screenwidth | Measure-Object
  $count = $M.Count
 
 $export = [PScustomobject]@{

@@ -14,7 +14,7 @@ foreach($Computer in $Computers)
 {
 #Pull in the value for each of the below Objects
 #sets value for $islaptop to false
-    $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
+   # $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
     $Computerchassis = Get-WmiObject Win32_SystemEnclosure -Computer $Computer
     $ComputerBattery = Get-WmiObject Win32_Battery -Computer $Computer
     $islaptop =$false
@@ -41,4 +41,4 @@ foreach($Computer in $Computers)
  }
 
 #exports the array to a CSV
- $array | Export-Csv -Path 'C:\Temp\pc info\misc\laptop.csv' -force -NoTypeInformation
+ $array | Export-Csv -Path 'C:\Temp\info\chassis type.csv' -force -NoTypeInformation

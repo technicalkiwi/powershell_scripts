@@ -11,13 +11,13 @@ foreach($Computer in $Computers)
     $computerBIOS = get-wmiobject Win32_BIOS -Computer $Computer
     $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
     $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
-    $computerHDDs = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
+    #$computerHDDs = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
     $disks = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
     $Networkconfig = Get-WmiObject Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName $Computer
     $PcFile = $computerSystem.Name + ".TXT"
 
 #Creates an object to hold all of the inventory data of the currently queried machine.
-      [Object[]] $Inventory = @("SERVER: " + $computerSystem.Name, ` 
+      [Object[]] $Inventory = @("SERVER: " + $computerSystem.Name, `
                              ""   
                              ""
                              "HARDWARE INFORMATION"
@@ -30,17 +30,17 @@ foreach($Computer in $Computers)
                              ""
                              "Current Status: " + $computerOS.Status, `
                              ""
-                             "Manufacturer: " + $computerSystem.Manufacturer, ` 
+                             "Manufacturer: " + $computerSystem.Manufacturer, `
                              ""                           
                              "Model: " + $computerSystem.Model, `
                              ""
-                             "Serial Number: " + $computerBIOS.SerialNumber, ` 
+                             "Serial Number: " + $computerBIOS.SerialNumber, `
                              ""
-                             "CPU: " + $computerCPU.Name -join "-", ` 
+                             "CPU: " + $computerCPU.Name -join "-", `
                              ""
-                             "RAM: " + "{0:N2}" -f ($computerSystem.TotalPhysicalMemory/1GB) + "GB", ` 
+                             "RAM: " + "{0:N2}" -f ($computerSystem.TotalPhysicalMemory/1GB) + "GB", `
                              ""
-                             "IP Address: " + $NetworkConfig.IpAddress -join "-", ` 
+                             "IP Address: " + $NetworkConfig.IpAddress -join "-", `
                              ""
                              "MAC Address: " + $NetworkConfig.MACAddress
                              "----------------------"
@@ -55,13 +55,13 @@ foreach($Computer in $Computers)
     { 
         [Object[]] $data = @("Drive: " + $disk.DeviceID, `
                             ""
-                            "Drive Name: " + $disk.VolumeName, ` 
+                            "Drive Name: " + $disk.VolumeName, `
                             ""
-                            "Disk Size: " + [Math]::Round(($disk.Size /1GB), 0) + "GB", ` 
+                            "Disk Size: " + [Math]::Round(($disk.Size /1GB), 0) + "GB", `
                             ""
                             "Used Space: " + [Math]::Round(($disk.Size - $disk.FreeSpace) /1GB, 0) + "GB"
                             
-                            "Free Space: " + [Math]::Round(($disk.FreeSpace / 1GB), 0) + "GB", ` 
+                            "Free Space: " + [Math]::Round(($disk.FreeSpace / 1GB), 0) + "GB", `
                             ""
                             
                             "-----------------"

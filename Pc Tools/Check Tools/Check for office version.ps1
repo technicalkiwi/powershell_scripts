@@ -16,7 +16,7 @@ $outfile = 'C:\temp\office.csv'
         $version = 0
         try{
           $reg = [Microsoft.Win32.RegistryKey]::OpenRemoteBaseKey('LocalMachine', $computer) 
-          $reg.OpenSubKey('software\Microsoft\Office').GetSubKeyNames() |% {
+          $reg.OpenSubKey('software\Microsoft\Office').GetSubKeyNames() |ForEach-Object {
             if ($_ -match '(\d+)\.') {
               if ([int]$matches[1] -gt $version) {
                 $version = $matches[1]
@@ -51,7 +51,7 @@ $outfile = 'C:\temp\office.csv'
     $object = new-object -TypeName PSObject -Property $info
     $office += $object
     }
-    $office | select computer,version,name,user | Export-Csv -NoTypeInformation -Path $outfile
+    $office | Select-Object computer,version,name,user | Export-Csv -NoTypeInformation -Path $outfile
     
 
   write-output ("Done")
