@@ -27,11 +27,11 @@ $mainImage = $MainImages | Where-Object{$_.Name -Match "$ItemSku"}
 #if more than one image is present write to error log
 if ($mainimage.count -gt "1") {
    $outfile = ""
-   $outfile = "There Is more than one image for " + $itemSku
+   $outfile = "There Is more than one main image for " + $itemSku
    $outfile | Out-File -FilePath $mainlog -Append
    }elseif ($mainImage.count -eq "0"){
    $outfile = ""
-   $outfile = "There are no images for " + $itemSku
+   $outfile = "There is no main image for " + $itemSku
    $outfile | Out-File -FilePath $mainlog -Append
    }elseif ( $mainimage.count -eq "1") {   #rename the file to match convention
     $newfilename = ""
@@ -48,11 +48,11 @@ $main_ModelImage = $Main_ModelImages | Where-Object{$_.Name -Match "$ItemSku"}
 #if more than one image is present write to error log
 if ($main_Modelimage.count -gt "1") {
    $outfile = ""
-   $outfile = "There Is more than one image for " + $itemSku
+   $outfile = "There Is more than one main model image for " + $itemSku
    $outfile | Out-File -FilePath $mainlog -Append
    }elseif ($main_ModelImage.count -eq "0"){
    $outfile = ""
-   $outfile = "There are no images for " + $itemSku
+   $outfile = "There are no main model images for " + $itemSku
    $outfile | Out-File -FilePath $main_modellog -Append
    }elseif ( $main_Modelimage.count -eq "1") {   #rename the file to match convention
     $newfilename = ""
@@ -67,7 +67,7 @@ if ($main_Modelimage.count -gt "1") {
 #set main variable to null
 $altImage = ""
 $altImage = $altImages | Where-Object{$_.Name -Match "$ItemSku"}
-$altcount = 1
+$altcount = 2
 #Run through all images adding 1 at the end
 foreach($altimag in $altImage){
     $newfilename = ""
@@ -81,7 +81,7 @@ foreach($altimag in $altImage){
 #set main variable to null
 $alt_modelImage = ""
 $alt_modelImage = $alt_modelImages | Where-Object{$_.Name -Match "$ItemSku"}
-$alt_modelcount = 1
+$alt_modelcount = 2
 foreach($alt_modelimag in $alt_modelImage){
     $newfilename = ""
     $newfilename = "$itemsku" + "_prod_model_" + $alt_modelcount + ".jpg"

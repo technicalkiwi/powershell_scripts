@@ -11,7 +11,7 @@ $Folders = Get-ChildItem -Recurse $SourceDirectory
 #search through for images
 foreach($item in $missingitems){
 $item
-$pics = $folders | Where{$_.Name -Match "$item" }
+$pics = $folders | Where-Object{$_.Name -Match "$item" }
 
 #if image is found move to a folder.
 foreach($pic in $pics){

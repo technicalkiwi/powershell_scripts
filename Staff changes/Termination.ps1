@@ -85,14 +85,14 @@ Add-Content $PathLog\$Username.txt "------------------------"
 #Export list of security groups user is a Member Of
 Add-Content $PathLog\$Username.txt "Group MemberShip"
 Add-Content $PathLog\$Username.txt "=========================="
-$SecGroups = Get-ADPrincipalGroupMembership $Username | Select Name 
+$SecGroups = Get-ADPrincipalGroupMembership $Username | Select-Object Name 
 $SecGroups -replace '.*=' -replace '}' | Add-Content $PathLog\$Username.txt
 Write-Host "$Username Groups exported"
 Add-Content $PathLog\$Username.txt "--------------------------"
 
 #Remove user from all groups except 'Domain Users'
-Get-ADPrincipalGroupMembership -Identity $Username | where {$_.Name -notlike "Domain Users"} |% {Remove-ADPrincipalGroupMembership -Identity $Username -MemberOf $_ -Confirm:$false}
-Write-Host "$Username removed from groups"
+Get-ADPrincipalGroupMembership -Identity $Username | Where-Object {$_.Name -notlike "Domain Users"} |ForEach-Object {Remove-ADPrincipalGroupMembership -Identity $Username -MemberOf $_ -Confirm:$false}
+Write-Host "$Username removed from Security Groups"
 
 #Export list of distrubution groups user is a Member Of 
 $Recipient = Get-Recipient $Username
@@ -101,27 +101,27 @@ $DGs = $DistGroups.name
 Add-Content $PathLog\$Username.txt "DISTRUBTION GROUP MEMBERSHIP"
 Add-Content $PathLog\$Username.txt "==========================="
 Add-Content $PathLog\$Username.txt $dgs
-Write-Host "$Username Distrubution Groups exported"
 Add-Content $PathLog\$Username.txt "--------------------------"
+Write-Host "$Username Distrubution Groups exported"
 
 #Remove user from all distribution groups
 $UserMail = (Get-ADUser $Username -Properties mail).mail
 foreach( $distgroup in $DGs){
 Remove-DistributionGroupMember $distgroup -Member $UserMail -Confirm:$false
 }
-
+Write-Host "$Username removed from Distribution Groups"
 
 #Get supervisor name to forward emails
 Function Get-Supervisorname {
 	$Global:Supervisorname = Read-Host "Enter supervisor / manager username to forward emails to"
 	if ($Supervisorname -eq $null){
 		Write-Host "Supervisor name cannot be blank. Please re-enter"
-		Get-Username
+		Get-Supervisorname
 	}
 	$SuperCheck = Get-ADUser $Username
 	if ($SuperCheck -eq $null){
 		Write-Host "Invalid username. Please verify this is the logon id for the supervisor"
-		Get-Username
+		Get-Supervisorname
 	}
 }
 Get-Supervisorname
@@ -142,12 +142,13 @@ Write-Host "ActiveSync Enabled: $ActiveSync"
 #Move disabled user to Disabled OU in ADUC
 Move-ADObject -Identity (Get-ADuser $Username).objectGUID -TargetPath 'OU=DISABLED User Accounts,DC=domain,Dc=com,DC=com'
 $UserDisabled2 = (Get-ADUser $Username).Enabled
-$UserGroups2 = Get-ADPrincipalGroupMembership $Username | Select Name
+$UserGroups2 = Get-ADPrincipalGroupMembership $Username | Select-Object Name
 $DistGroups2 = Get-Recipient -Filter "members -eq '$($Recipient.DistinguishedName)'"
 $DistGroup2 = $DistGroups2.name
-$UserOU2 = Get-ADUser $Username | select @{l='Parent';e={([adsi]"LDAP://$($_.DistinguishedName)").Parent}}
+$UserOU2 = Get-ADUser $Username | Select-Object @{l='Parent';e={([adsi]"LDAP://$($_.DistinguishedName)").Parent}}
 $SupName2 = (Get-Mailbox -identity $Username).forwardingaddress -replace ".*Accounts"
 $ActiveSync2 = (Get-casmailbox -identity $Username).activesyncenabled
+Write-Host "$Username Has Been moved to the Disabled Users OU"
 
 #Create a PST Backup of $Username's Mailbox
 
