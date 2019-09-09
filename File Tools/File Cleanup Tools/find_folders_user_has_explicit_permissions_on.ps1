@@ -1,5 +1,5 @@
 $directory = 'P:/'
-$txtfile = "C:\Temp
+$txtfile = "C:\Temp"
 $users = get-content $txtfile
 $logpath = "C:\TEMP\permission log"
 #$directory = "C:\TEMP"
@@ -17,7 +17,7 @@ $aclaccess = $ACL.access
 if ($aclaccess.IdentityReference -eq $user) {
 $folder.FullName
 $string = $user + " has permission on " + $folder.fullname
-$string | out-file -FilePath "C:\TEMP\permission log\$user.txt" -append
+$string | out-file -FilePath $logpath\$user.txt -append
 
         }
     }
