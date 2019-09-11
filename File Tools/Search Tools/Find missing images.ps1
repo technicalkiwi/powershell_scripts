@@ -10,15 +10,14 @@ $Filestructure = Get-ChildItem -Recurse $SourceDirectory
 foreach($itemsku in $missingitems){
 $itemsku
 #$images = ""
-$images = $Filestructure | Where{$_.Name -Match "$itemsku" }
+$images = $Filestructure | Where-Object{$_.Name -Match "$itemsku" }
 $images
 if($images.count -eq "0") {
    $outfile = ""
    $outfile = "There are no images for " + $itemsku
    $outfile | Out-File -FilePath $log -Append
 
-
-} else {foreach($image in $images){
+} else{ foreach($image in $images){
 $image | copy-item -destination $DestinationDirectory
 $name = $image.name
 $Testpath = "$DestinationDirectory\$name"
@@ -32,3 +31,4 @@ $string | Out-File -FilePath "C:\powershell\logs\images.txt" -Append
         
     }
     }
+   }
