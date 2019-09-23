@@ -2,8 +2,8 @@ $txtfile = "C:\TEMP\missing_pic1.txt"
 $missingItems = Get-Content $txtfile
 #$missingitems = "8131440"
 $SourceDirectory = "\\bgr-fp01\WEBSITE IMAGES2312"
-$DestinationDirectory = "\\bgr-fp01\tmp_images\DestinationFolders\aaron"
-$log = "C:\powershell\logs\missingskulog.txt"
+$DestinationDirectory = "\\BGR-FP01\website images2312\Aarons found pictures"
+$log = "C:\powershell\logs\missingskulog1.txt"
 
 $Filestructure = Get-ChildItem -Recurse $SourceDirectory
 
@@ -26,7 +26,7 @@ $Testpath = "$DestinationDirectory\$name"
 if (Test-Path $Testpath){
 $string = $name + " Has been copied Successfully"
 $string
-$string | Out-File -FilePath "C:\powershell\logs\images.txt" -Append
+$string | Out-File -FilePath "C:\powershell\logs\images1.txt" -Append
         } 
         
     }

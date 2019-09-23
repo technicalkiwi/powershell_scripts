@@ -19,7 +19,7 @@ $Global:User = Read-Host "Enter Username of mailbox"
 #runs through the users mailbox and exports a break down of where the space is being used.
 $mailbox = Get-MailboxFolderStatistics  -Identity briscoes\$user
 $folders= ($mailbox | Select-Object Name,FolderPath,FolderSize,FolderAndSubfolderSize )
-$folders
+$folders | Sort-Object folderpath
 
 $Global:export = Read-Host "Do you wish to export the break down?"
 #Exports the breakdown into a txt file.
