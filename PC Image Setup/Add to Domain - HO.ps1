@@ -14,7 +14,6 @@
 #
 
 # Set Variables 
-$PublicShortcuts = "\\bgr-fp02\Photocopy\IT\shortcuts\Headoffice"
 $DesktopOU = "OU=Desktops,OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
 $LaptopOU = "OU=Laptops,OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
 $StandardOU = "OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
