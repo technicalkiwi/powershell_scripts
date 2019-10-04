@@ -14,12 +14,12 @@ $Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI ht
 Import-PSSession $Session -DisableNameChecking
 
 #Set Which users mailbox to search
-$Global:User = Read-Host "Enter Username of mailbox"
+$User = Read-Host "Enter Username of mailbox"
 
 #runs through the users mailbox and exports a break down of where the space is being used.
 $mailbox = Get-MailboxFolderStatistics  -Identity briscoes\$user
 $folders= ($mailbox | Select-Object Name,FolderPath,FolderSize,FolderAndSubfolderSize )
-$folders | Sort-Object folderpath
+$folders | Sort-Object FolderPath  |  Format-Table -AutoSize
 
 $Global:export = Read-Host "Do you wish to export the break down?"
 #Exports the breakdown into a txt file.
