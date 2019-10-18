@@ -1,5 +1,5 @@
 #set some variables
-$txtfile = "C:\TEMP\missing_pic.txt"
+$txtfile = "C:\TEMP\mp.txt"
 $missingItems = Get-Content $txtfile
 #$missingitems = "one off item"
 $SourceDirectory = "\\xxxxxxxxxxxxxxxxxxxx"

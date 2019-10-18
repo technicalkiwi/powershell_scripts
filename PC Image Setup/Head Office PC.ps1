@@ -1,6 +1,6 @@
 ﻿# ********************************************************************************
 #
-# Script Name: Head Office PC.ps1
+# Script Name: HO PC Setup.ps1
 # Version: 1.0
 # Author: Aaron Buchan
 # Date: 26/9/2019
@@ -10,23 +10,40 @@
 #
 #
 # ********************************************************************************
-
 #
 
-# Set Variables 
-$PublicShortcuts = "\\bgr-fp02\Photocopy\IT\shortcuts\Headoffice"
+$yes = "y", "Y", "yes", "Yes". "YES"
+$no = "n", "N", "no", "No", "NO"
 
-# Welcome Banner
-Write-Host "##############################################"
-Write-Host "#                                            #"
-Write-Host "#   Welcome to the Head Office Setup Script! #"
-Write-Host "#                                            #"
-Write-Host "##############################################"
-Write-Host " "
+### Pick New computer name ###
+$NewName = read-host -Prompt " Please enter a new name for the computer"
+
+#Choose what to install
+$VPNvar = read-host -Prompt "Do you want to Install the VPN Client?  (Y/N)"
+
+if ($yes -ccontains $VPNVar){
+$InstallVPN = "True" }
+else {$InstallVPN = "False"}
 
 
-$PCname = Read-Host -Prompt "Please enter PC Name"
-Rename-Computer -NewName $PCname -WhatIf
+### Copies accross Shortcuts ###
+$Shortcuts = "\\bgr-fp02\Photocopy\IT\shortcuts\Headoffice"
+$LocalShortcuts = "C:\Users\Public\Desktop\"
+$PublicShortcuts = Get-ChildItem $Shortcuts
 
-$credential = Get-Credential
-Add-Computer -DomainName briscoes-nz.co.nz -Credential $credential -Restart -Force -WhatIf
+foreach($Shortcut in $PublicShortcuts.fullname){
+
+Copy-Item $Shortcut $LocalShortcuts}
+
+
+
+### Adds in Printers ###
+Add-Printer -ConnectionName \\bgr-prt-svr01\b-mor-queue1 -ErrorAction Ignore
+
+
+### Install Symantec ###
+C:\Installs\Symantec-64bit\setup.exe /quiet /s /v
+
+sleep -Seconds 300
+
+Rename-Computer -ComputerName $NewName
