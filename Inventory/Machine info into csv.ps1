@@ -18,22 +18,13 @@ if (Test-Path $Live){ Clear-Content -Path $Live}
 foreach($computer in $Computers)
 {
     $ONLINE = Test-Path \\$Computer\C$\
-If($ONLINE -eq $true) {$computer | out-file -filepath $Live -Append 
-    }elseif ($online -eq $false) { $computer | out-file -filepath $Offline -Append 
-    }
-}
-
-# Puls in only the computers that are live.
-$liveTxtFile = "C:\temp\live.txt"
-$LiveComputers = Get-Content $liveTxtFile
-
-
-Foreach($livecomputer in $LiveComputers){
-
+If($ONLINE -eq $false) {$computer | out-file -filepath $Offline -Append 
+    }elseif ($online -eq $true) { 
+    
 #Defines the variables used in getting the Required Information.
-    $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $LiveComputer
-    $computerOS = get-wmiobject Win32_OperatingSystem -Computer $LiveComputer
-    $computerCPU = get-wmiobject Win32_Processor -Computer $LiveComputer
+    $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
+    $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
+    $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
    
 $export = [PScustomobject]@{
 Computer         = $computerSystem.Name
@@ -47,8 +38,9 @@ RAM              = ($computerSystem.TotalPhysicalMemory/1GB)
 
 $array += $export
 
-
-  }
+        }
+    }
+}
 
  $array
 
