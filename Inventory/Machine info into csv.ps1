@@ -5,14 +5,11 @@ $array =@()
 $TxtFile = "C:\Powershell\txt-files\Computers\All Computers.txt"
 $Computers = Get-Content $TxtFile
 
-<#Goes through each computer in the file
-Tests if the Computer is Live by pinging #>
+#Goes through each computer in the file
 
-$Live = "C:\temp\live.txt"
 $Offline = "C:\temp\offline.txt"
 
 #Clears the live computers file.
-if (Test-Path $Live){ Clear-Content -Path $Live}
 
 #checks to see if PC's are live, if they are puts them into a text file.
 foreach($computer in $Computers)
