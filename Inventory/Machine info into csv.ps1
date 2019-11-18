@@ -6,12 +6,9 @@ $TxtFile = "C:\Powershell\txt-files\Computers\All Computers.txt"
 $Computers = Get-Content $TxtFile
 
 #Goes through each computer in the file
-
 $Offline = "C:\temp\offline.txt"
 
-#Clears the live computers file.
 
-#checks to see if PC's are live, if they are puts them into a text file.
 foreach($computer in $Computers)
 {
     $ONLINE = Test-Path \\$Computer\C$\
@@ -22,6 +19,10 @@ If($ONLINE -eq $false) {$computer | out-file -filepath $Offline -Append
     $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
     $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
     $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
+    $Networkconfig = Get-WmiObject Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName $Computer
+
+    $IPAddress = $NetworkConfig.IpAddress -join "-"
+    $CPU = $computerCPU.Name -join "-"
    
 $export = [PScustomobject]@{
 Computer         = $computerSystem.Name
@@ -29,15 +30,16 @@ Make             = $computerSystem.Manufacturer
 Model            = $computerSystem.Model
 OS               = $computerOS.Caption
 Architecture     = $computerOS.OSArchitecture
-CPU              = $computerCPU.name 
+CPU              = $CPU
 RAM              = ($computerSystem.TotalPhysicalMemory/1GB)
+IP               = $IPAddress
 }
 
 $array += $export
 
         }
     }
-}
+
 
  $array
 
