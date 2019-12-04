@@ -23,4 +23,4 @@ $inputdistgroup = Read-Host -Prompt "Enter Distribution group name"
 $distgroup = Get-DistributionGroup | Where-Object name -like $inputdistgroup
 
 $DistGroupMembers = Get-DistributionGroupMember -Identity $distgroup.name
-$DistGroupMembers.name | sort 
+$DistGroupMembers.name | Sort-Object
