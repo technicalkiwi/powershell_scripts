@@ -4,7 +4,6 @@ $pcs = Get-Content $TxtFile
 #$pcs = "bri_bgr_a0327"
 
 foreach($pc in $pcs){
-$viso = ""
 
 programpath = "\C$\path to search"
 	
