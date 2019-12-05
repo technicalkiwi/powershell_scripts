@@ -58,13 +58,14 @@ $OfflineArray | Export-Csv -path $OfflineMachineCsvPath -Force -NoTypeInformatio
 
 #Create and send the Email with Attachment.
 
-      $mailsettings = @{
-'SmtpServer'  = "mailsvr01.briscoes-nz.co.nz"
-'To' = "aaron.buchan@briscoegroup.co.nz", "ithelpdesk@briscoes.co.nz"
-'From' = " BGR AD TOOLS <sender@briscoes.co.nz>"
-'Subject' = "AD Expiration Check"
-'Body' = "The attachted Accounts have an expiry date beyond the Policies"
-'Attachments' = $FullDiskCsvPath, $OfflineMachineCsvPath
-}
-
-Send-MailMessage @mailsettings
+$mailsettings = @{
+    'SmtpServer'  = "mailsvr01.briscoes-nz.co.nz"
+    'To' = "aaron.buchan@briscoegroup.co.nz", "ithelpdesk@briscoes.co.nz"
+    'From' = " BGR IT TOOLS <sender@briscoes.co.nz>"
+    'Subject' = "Machines with FUll Disks"
+    'Body' = "The attachted Accounts have an Disk Space below the threshold"
+    'Attachments' = $FullDiskCsvPath, $OfflineMachineCsvPath
+    }
+    
+    Send-MailMessage @mailsettings
+    
