@@ -2,7 +2,7 @@
 
 #Set some variables
 $LogPath = 'C:\TEMP\log\dist-groups.txt'
-$URI = 'http://exchange2k10/Powershell'
+$ExhchangeURI = 'http://TK-exchange/Powershell'
 
 #Create the log file
 Add-Content $LogPath "DISTRUBTION GROUP MEMBERSHIP"
@@ -13,7 +13,7 @@ Add-Content $LogPath "==========================="
 Write-Host " Use Your BGR Account for the pop up"
 $cred = get-credential
 #pulls in the commands from exchange server, and starts a remote session
-$Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI $URI -credential $cred
+$Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI $ExchangeURI -credential $cred
 
 #Imports the Exhange command set from the remote server
 Import-PSSession $Session -DisableNameChecking
