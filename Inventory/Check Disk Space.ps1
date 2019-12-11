@@ -29,14 +29,17 @@ If($Online -eq $true){
 # Pulls in the disk info for C Drive
 $StoreMachineDisk = Get-WmiObject -class Win32_LogicalDisk -ComputerName $StoreMachine | Where-Object DeviceId -eq "C:"   
 #Sets the Alert treshold to 10% of total Size.
-$AlertTreshhold = ($StoreMachineDisk.size * .1)
+$AlertTreshhold = 10
 
 # If the Free space is below the threshold add the machine to an Object
-If($StoreMachineDisk.freespace -lt $AlertTreshhold){
+$FreeDiskSpace = [math]::Round(($StoreMachineDisk.freespace) / 1GB)
+
+If($FreeDiskSpace -lt $AlertTreshhold){
 
     $FullArray = [PSCustomObject]@{
         Computer = $StoreMachine
         Status   = "Disk is below Treshold"
+        FreeSpace = "$FreeDiskSpace" + " GB"
             }
 # Adds the Alert to the Full Disks Array
     $FullDisks += $FullArray
@@ -59,9 +62,9 @@ $OfflineArray | Export-Csv -path $OfflineMachineCsvPath -Force -NoTypeInformatio
 #Create and send the Email with Attachment.
 
 $mailsettings = @{
-    'SmtpServer'  = "mailsvr01.briscoes-nz.co.nz"
-    'To' = "aaron.buchan@briscoegroup.co.nz", "ithelpdesk@briscoes.co.nz"
-    'From' = " BGR IT TOOLS <sender@briscoes.co.nz>"
+    'SmtpServer'  = "Mail server"
+    'To' = "Emailaddress@domain"
+    'From' = " Senders Name <sender@domain>"
     'Subject' = "Machines with FUll Disks"
     'Body' = "The attachted Accounts have an Disk Space below the threshold"
     'Attachments' = $FullDiskCsvPath, $OfflineMachineCsvPath
