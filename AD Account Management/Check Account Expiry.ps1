@@ -19,7 +19,7 @@ $expdate = (get-date).AddDays(+20)
 $CsvPath = 'C:\Powershell\Logs\Ad Acount expiration.csv'
 
 # Pulls in all Ad Accounts in the selected OU
-$accounts = Get-ADUser -filter * -SearchBase "OU=Briscoe Group Head Office Accounts,DC=briscoes-nz,DC=co,DC=nz" -Properties AccountExpirationDate 
+$accounts = Get-ADUser -filter * -SearchBase "OU=Head Office Accounts,DC=technicalkiwi,DC=com" -Properties AccountExpirationDate 
 # Finds all accounts where Account expiry is greaterh than $Expdate
 $ExpAccounts = $accounts | Where-Object AccountExpirationDate -GT $expdate
 
@@ -40,14 +40,14 @@ $array | Export-Csv -path $CsvPath -Force -NoTypeInformation
 
 #Create and send the Email with Attachment.
 
-      $mailsettings = @{
-'SmtpServer'  = "mailsvr01.briscoes-nz.co.nz"
-'To' = "aaron.buchan@briscoegroup.co.nz", "ithelpdesk@briscoes.co.nz"
-'From' = " BGR AD TOOLS <sender@briscoes.co.nz>"
-'Subject' = "AD Expiration Check"
-'Body' = "The attachted Accounts have an expiry date beyond the Policies"
-'Attachments' = $CsvPath
-}
+$mailsettings = @{
+  'SmtpServer'  = "Mail server"
+  'To' = "Emailaddress@domain"
+  'From' = " Senders Name <sender@domain>"
+  'Subject' = "Machines with FUll Disks"
+  'Body' = "The attachted Accounts have an Disk Space below the threshold"
+  'Attachments' = $FullDiskCsvPath, $OfflineMachineCsvPath
+  }
 
 
 Send-MailMessage @mailsettings
