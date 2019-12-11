@@ -1,6 +1,7 @@
 #Add Access to Mailboxes on exchange.
 
 #Sets some Hard Coded Variables
+$ExchangeURI = "http://TK-exchange/Powershell"
 $No = "n", "N", "No", "NO"
 $Yes = "y", ",Y", "Yes", "YES"
 
@@ -9,7 +10,7 @@ $cred = get-credential
 
 #Initiates a remote session connection to the exhange server
 #Change connectionURI to exchange Server name or IP Address
-$Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI http://exchange2k10/Powershell -credential $cred
+$Session = New-PSSession -configurationname Microsoft.Exchange -connectionURI $ExchangeURI -credential $cred
 
 #Imports the Exhange command set from the remote server
 Import-PSSession $Session -DisableNameChecking

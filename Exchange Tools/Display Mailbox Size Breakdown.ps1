@@ -1,7 +1,7 @@
 # Tool to Display a breakdown of a users mailbox and where the space is being used.
 
 #Sets some Hard Coded Variables
-$ExchangeURI = "http://exchange2k10/Powershell"
+$ExchangeURI = "http://TK-exchange/Powershell"
 $No = "n", "N", "No", "NO"
 $Yes = "y", ",Y", "Yes", "YES"
 
