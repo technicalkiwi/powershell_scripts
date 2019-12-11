@@ -14,9 +14,9 @@
 #
 
 # Set Variables 
-$DesktopOU = "OU=Desktops,OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
-$LaptopOU = "OU=Laptops,OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
-$StandardOU = "OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
+$DesktopOU = "OU=Desktops,OU=HO Computers,OU=Computers OU Technical Kiwi,DC=technicalkiwi,DC=com"
+$LaptopOU = "OU=Laptops,OU=HO Computers,OU=Computers OU Technical Kiwi,DC=technicalkiwi,DC=com"
+$StandardOU = "OU=Computers,OU=Computers OU Technical Kiwi,DC=technicalkiwi,DC=com"
 
 # Welcome Banner
 Write-Host "##############################################"
@@ -45,5 +45,5 @@ $OU = $StandardOU
 }
 
 $credential = Get-Credential
-Add-Computer -DomainName briscoes-nz.co.nz -Credential $credential -OUPath $OU -Restart -Force
+Add-Computer -DomainName technicalkiwi.co.nzmential $credential -OUPath $OU -Restart -Force
 

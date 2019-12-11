@@ -14,7 +14,7 @@
 #
 
 # Set Variables 
-$OU = "OU=HO Computers,OU=Computers OU Briscoe Group,DC=briscoes-nz,DC=co,DC=nz"
+$OU = "OU=HO Computers,OU=Computers OU Technical Kiwi,DC=technicalkiwi,DC=com"
 
 # Welcome Banner
 Write-Host "##############################################"
@@ -25,7 +25,7 @@ Write-Host "##############################################"
 Write-Host " "
 
 $hostname = read-host "Enter new Host name"
-$credential = (Get-Credential BRISCOES\sharron)
+$credential = (Get-Credential TechnicalKiwi\Admin)
 
-Add-Computer -DomainName briscoes-nz.co.nz -Credential $credential -newname $hostname -OUPath $OU -Restart -Force
+Add-Computer -DomainName technicalkiwi.com -Credential $credential -newname $hostname -OUPath $OU -Restart -Force
 
