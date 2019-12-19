@@ -31,15 +31,21 @@ $StoreMachineDisk = Get-WmiObject -class Win32_LogicalDisk -ComputerName $StoreM
 #Sets the Alert treshold to 10% of total Size.
 $AlertTreshhold = 10
 
-# If the Free space is below the threshold add the machine to an Object
+# Queries the amount of free space
 $FreeDiskSpace = [math]::Round(($StoreMachineDisk.freespace) / 1GB)
 
+# If the Free space is below the threshold add the machine to an Object
 If($FreeDiskSpace -lt $AlertTreshhold){
-
+    
+    $TempFolder = Get-ChildItem "\\$StoreMachine\c$\windows\temp"
+    $size = $TempFolder | Measure-Object -property Length -sum
+    $TempSize = [math]::round(($size.sum) / 1GB)
+    
     $FullArray = [PSCustomObject]@{
         Computer = $StoreMachine
         Status   = "Disk is below Treshold"
         FreeSpace = "$FreeDiskSpace" + " GB"
+        TempSize  = "$TempSize" + " GB"
             }
 # Adds the Alert to the Full Disks Array
     $FullDisks += $FullArray
