@@ -1,46 +1,76 @@
-$array =@()
+# ********************************************************************************
+# Script Name: Remote Computer Info Into CSV.ps1
+# Version: 1.0
+# Author: Aaron Buchan
+# Date: 07/1/2020
+# Applies to: Remote Computers
+#
+# Description: This script Pulls in system information from remote computers and
+# exports to a csv, once the CSV has been created the script will update only those
+# Computers that are currently online,
+# 
+# Gets the Following information: ComputerName, User, Make, Model, OS, Architecture, CPU, RAM, MAC, ChassisType
+#
+# ********************************************************************************
 
-#Define the Computers to be tested
-#Pulls the list from a text file.
-$TxtFile = "C:\Powershell\txt-files\Computers\All Computers.txt"
-$Computers = Get-Content $TxtFile
+$array=@()
 
-#Goes through each computer in the file
-$Offline = "C:\temp\offline.txt"
+$computers = Import-Csv -path "C:\Powershell\Inventory\pc info\Ho-pc.csv" -Delimiter "," 
 
 
-foreach($computer in $Computers)
-{
-    $ONLINE = Test-Path \\$Computer\C$\
-If($ONLINE -eq $false) {$computer | out-file -filepath $Offline -Append 
-    }elseif ($online -eq $true) { 
-    
-#Defines the variables used in getting the Required Information.
+foreach($Pc in $computers){
+$Computer = $Pc.Computername
+
+$testpath = "\\$computer\c$"
+$online = Test-Path $testpath
+
+if($online -eq $true){
+
+# Information Gathering 
     $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
+    $computerBIOS = get-wmiobject Win32_BIOS -Computer $Computer
     $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
     $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
+    $computerHDDs = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
+    $disks = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
     $Networkconfig = Get-WmiObject Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName $Computer
-
-    $IPAddress = $NetworkConfig.IpAddress -join "-"
     $CPU = $computerCPU.Name -join "-"
-   
+    $Chassis = (Get-WmiObject -Class win32_systemenclosure -ComputerName $computer).chassistypes
+    $chassisType = "$chassis"
+  
+
 $export = [PScustomobject]@{
-Computer         = $computerSystem.Name
+ComputerName     = $computerSystem.Name
+User             = $computerSystem.username
 Make             = $computerSystem.Manufacturer
 Model            = $computerSystem.Model
 OS               = $computerOS.Caption
 Architecture     = $computerOS.OSArchitecture
 CPU              = $CPU
 RAM              = ($computerSystem.TotalPhysicalMemory/1GB)
-IP               = $IPAddress
-}
-
-$array += $export
-
+MAC              = $Networkconfig.MACAddress
+ChassisType      = $chassistype
         }
+$array += $export
+    }elseif($online -eq $false){
+
+$export = [PScustomobject]@{
+ComputerName     = $PC.ComputerName
+User             = $PC.User
+Make             = $PC.Make
+Model            = $PC.Model
+OS               = $PC.OS
+Architecture     = $PC.Architecture
+CPU              = $PC.CPU
+RAM              = $PC.RAM
+MAC              = $PC.MAC
+ChassisType      = $PC.ChassisType
+        }
+$array += $export
     }
 
+}
 
- $array
-
-$array | Export-Csv -Path "C:\Powershell\Inventory\pc info\pc.csv" -force -NoTypeInformation -Append
+$array | Export-Csv -Path "C:\Powershell\Inventory\pc info\Ho-pc-new.csv" -Force -NoTypeInformation
+Remove-Item -Path "C:\Powershell\Inventory\pc info\Ho-pc.csv"
+Rename-Item -Path "C:\Powershell\Inventory\pc info\Ho-pc-new.csv" -NewName "Ho-pc.csv"
