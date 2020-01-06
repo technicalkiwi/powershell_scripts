@@ -28,11 +28,8 @@ if($online -eq $true){
 
 # Information Gathering 
     $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
-    $computerBIOS = get-wmiobject Win32_BIOS -Computer $Computer
     $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
     $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
-    $computerHDDs = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
-    $disks = Get-WmiObject Win32_LogicalDisk -ComputerName $Computer -Filter drivetype=3 
     $Networkconfig = Get-WmiObject Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName $Computer
     $CPU = $computerCPU.Name -join "-"
     $Chassis = (Get-WmiObject -Class win32_systemenclosure -ComputerName $computer).chassistypes
