@@ -29,6 +29,8 @@ if($online -eq $true){
 # Information Gathering 
     $computerSystem = get-wmiobject Win32_ComputerSystem -Computer $Computer
     $computerOS = get-wmiobject Win32_OperatingSystem -Computer $Computer
+    $serial =(get-wmiobject Win32_BIOS -Computer $Computer).serialnumber
+    $serialnumber = "$serial"
     $computerCPU = get-wmiobject Win32_Processor -Computer $Computer
     $Networkconfig = Get-WmiObject Win32_NetworkAdapterConfiguration -Filter IPEnabled=TRUE -ComputerName $Computer
     $CPU = $computerCPU.Name -join "-"
@@ -41,6 +43,7 @@ ComputerName     = $computerSystem.Name
 User             = $computerSystem.username
 Make             = $computerSystem.Manufacturer
 Model            = $computerSystem.Model
+Serial           = $SerialNumber
 OS               = $computerOS.Caption
 Architecture     = $computerOS.OSArchitecture
 CPU              = $CPU
