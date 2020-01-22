@@ -6,7 +6,7 @@ A Collection of Powershell Scripts
 
 #### AD Account Managment
 ###### Account Information
-* Check AD Account Expiry
+* [Check AD Account Expiry](./AD_Account_Management/Account_Information/Check-Account-Expiry.ps1) 
 * Check AD Password Expiry
 
 ###### Account Management
