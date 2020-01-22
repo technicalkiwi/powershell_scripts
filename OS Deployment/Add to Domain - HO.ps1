@@ -21,7 +21,7 @@ $StandardOU = "OU=Computers,OU=Computers OU Technical Kiwi,DC=technicalkiwi,DC=c
 # Welcome Banner
 Write-Host "##############################################"
 Write-Host "#                                            #"
-Write-Host "#   Welcome to the Head Office Setup Script! #"
+Write-Host "#   Welcome to the New PC Setup Script!      #"
 Write-Host "#                                            #"
 Write-Host "##############################################"
 Write-Host " "

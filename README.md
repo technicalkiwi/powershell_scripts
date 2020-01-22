@@ -42,3 +42,6 @@ A Collection of Sanitised Powershell Scripts
 * Computer Information into CSV
 * Computer Information into TXT
 * Check Remaining Disk Space
+
+#### OS Deployment
+* Add Pc to Domain
