@@ -1,20 +1,17 @@
 $TxtFile = "C:\TEMP\XXXXX.txt"
 $pcs = Get-Content $TxtFile
-
-#$pcs = "bri_bgr_a0327"
+#$pcs = "Ad hoc search"
 
 foreach($pc in $pcs){
 
-programpath = "\C$\path to search"
+$searchpath = "\C$\path to search"
 	
-$path = "\\" + $pc + $programpath
+$path = "\\" + $pc + $searchpath
 #$path
 
 $location = Get-ChildItem -Path $path -Recurse -Filter "*file to look for*"
-
-$Program = $location.fullname
-
-$Program
+$FoundItems = $location.fullname
+$FoundItems
 
 }
 
