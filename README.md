@@ -1,5 +1,5 @@
 # Powershell
-A Collection of Sanitised Powershell Scripts
+A Collection of Powershell Scripts
 
 ### Index
 
