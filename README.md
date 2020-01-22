@@ -45,3 +45,20 @@ A Collection of Sanitised Powershell Scripts
 
 #### OS Deployment
 * Add Pc to Domain
+* New Pc Setup
+
+#### PC Tools
+###### Information Gathering
+* Check .Net Version
+* Check Chassis Type
+* Check Chrome Version
+* Check Number of Monitors
+* Check Office Version
+* Check Service and Restart
+
+###### Networking Tools
+* Set IP Address
+* Set PC to DHCP
+
+###### Service Tools
+* Remove Winupdate Folder
