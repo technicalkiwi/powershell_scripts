@@ -62,3 +62,4 @@ A Collection of Sanitised Powershell Scripts
 
 ###### Service Tools
 * Remove Winupdate Folder
+* Remove Group Policy History
