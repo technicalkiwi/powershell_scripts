@@ -1,24 +1,24 @@
-$AzureAdCred = Get-Credential
-Connect-AzureAD -Credential $AzureAdCred
+
+#$AzureAdCred = Get-Credential
+#Connect-AzureAD -Credential $AzureAdCred
 
 $No = "n", "N", "No", "NO"
 $Yes = "y", ",Y", "Yes", "YES"
 
-$OFFICEPLAN = "ENTERPRISEPACK"
+$OFFICEPLAN = "OFFICESUBSCRIPTION"
 $TEAMSPLAN = "TEAMS_COMMERCIAL_TRIAL"
+$Location = "NZ"
 
-"#### USER SETUP SECTION"
-""
-$Firstname = Read-Host -Prompt "Please Enter First Name:  "
-$Lastname = Read-Host -Prompt "Please Enter Last Name:  "
-$Password = Read-Host -Prompt "Please Enter Initial Passoword:  "
-""
-""
-#Setup Licences to attach to the account
-"#### LICENCE SECTION ####"
-""
-$OfficeInstall = Read-Host -Prompt "Assign Office Licence  (Y/N)  "
-$TeamsInstall = Read-Host -Prompt "Assign Office Licence  (Y/N)  "
+$csvpath = "C:\Users\Aaron\Documents\AzureAD_Users.csv"
+$NewAzureAdUsers = Import-Csv -Path $csvpath
+
+foreach ($NewAzureAdUser in $NewAzureAdUsers){
+$firstname = $NewAzureAdUser.firstname
+$lastname = $NewAzureAdUser.lastname
+$UserPrincipal = $NewAzureAdUser.email
+$Password = $NewAzureAdUser.password
+$OfficeInstall = $NewAzureAdUser.Office
+$TeamsInstall = $NewAzureAdUser.teams
 
 # Create Objects to feed to User Creation
 $Displayname = $Firstname + " " + $Lastname
@@ -29,7 +29,8 @@ $PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordPro
 $PasswordProfile.Password = $Password
 
 # Create New Azure AD User
-New-AzureADUser -DisplayName $Displayname -PasswordProfile $PasswordProfile -UserPrincipalName $UserPrincipal -AccountEnabled $true -MailNickName $Firstname
+#New-AzureADUser -DisplayName $Displayname -PasswordProfile $PasswordProfile -UserPrincipalName $UserPrincipal -AccountEnabled $true -MailNickName $Firstname
+#Set-AzureADUser -ObjectID $UserPrincipal -UsageLocation $Location
 
 # Assign Office Licence if Required
 if($yes -contains $OfficeInstall){
@@ -57,5 +58,7 @@ $TeamsLicensesToAssign = New-Object -TypeName Microsoft.Open.AzureAD.Model.Assig
 $TeamsLicensesToAssign.AddLicenses = $TeamsLicense
 
 # Assign Teams Licence to User
-Set-AzureADUserLicense -ObjectId $UserPrincipal -AssignedLicenses $TeamsLicensesToAssign
+Set-AzureADUserLicense -ObjectId $UserPrincipal -AssignedLicenses $TeamsLicensesToAssign 
+}
+
 }
