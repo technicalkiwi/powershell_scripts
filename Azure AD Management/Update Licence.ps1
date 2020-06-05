@@ -1,14 +1,14 @@
-$AzureAdCred = Get-Credential
-Connect-AzureAD -Credential $AzureAdCred
+#$AzureAdCred = Get-Credential
+#Connect-AzureAD -Credential $AzureAdCred
 
-$OldOfficePlan = "OFFICESUBSCRIPTION"
-$OldE3Plan = "ENTERPRISEPACK"
-$OFFICEPLAN = "O365_BUSINESS_PREMIUM"
+$OldOfficePlan = "O365_BUSINESS_PREMIUM"
+$OFFICEPLAN = "ENTERPRISEPACK"
 
 #$TEAMSPLAN = "TEAMS_COMMERCIAL_TRIAL"
 
+$UserPrincipals = Get-Content C:\temp\e3.txt
 #$UserPrincipals = Get-AzureADUser -all $true | Select-Object userprincipalname
-$UserPrincipals = "adrian.limpin@briscoegroup.co.nz", "blair.cochrane@briscoegroup.onmicrosoft.com ", "Chris.Huang@briscoegroup.onmicrosoft.com ", "Krystal.moon@briscoegroup.onmicrosoft.com ", "russell.black@briscoegroup.co.nz", "stuartg@briscoegroup.co.nz" 
+#$UserPrincipals = "Kelly.Galbraith@briscoegroup.co.nz", "nick.turner@briscoegroup.co.nz"
 
 foreach($UserPrincipal in $UserPrincipals){ #.userprincipalname){
 
@@ -25,20 +25,6 @@ $UserPrincipal
     
     # Assign Office Licence to User
     Set-AzureADUserLicense -ObjectId $UserPrincipal -AssignedLicenses $OfficeLicensesToRemove
-
-#Remove Office E3 Licence
-    # Get SkuID for E3 Office License
-    $OldE3OfficeLicense = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicense
-    $OldE3OfficeLicense.SkuId = (Get-AzureADSubscribedSku | Where-Object -Property SkuPartNumber -Value $OLDE3PLAN -EQ).SkuID
-    
-    # Create Object for Office Licence 
-    $OfficeE3LicensesToRemove = New-Object -TypeName Microsoft.Open.AzureAD.Model.AssignedLicenses
-    $OfficeE3LicensesToRemove.AddLicenses = @()
-    $OfficeE3LicensesToRemove.RemoveLicenses = $OldE3OfficeLicense.SkuId
-    
-    # Assign Office Licence to User
-    Set-AzureADUserLicense -ObjectId $UserPrincipal -AssignedLicenses $OfficeE3LicensesToRemove
-
 
 # Assign Office Licence
     # Get SkuID for Office License
