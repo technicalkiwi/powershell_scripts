@@ -1,8 +1,8 @@
 #$AzureAdCred = Get-Credential
 #Connect-AzureAD -Credential $AzureAdCred
 
-$OldOfficePlan = "O365_BUSINESS_PREMIUM"
-$OFFICEPLAN = "ENTERPRISEPACK"
+$OfficePremiumPlan = "O365_BUSINESS_PREMIUM"
+$E3OFFICEPLAN = "ENTERPRISEPACK"
 
 #$TEAMSPLAN = "TEAMS_COMMERCIAL_TRIAL"
 

@@ -5,13 +5,16 @@
 $No = "n", "N", "No", "NO"
 $Yes = "y", ",Y", "Yes", "YES"
 
-$OFFICEPLAN = "OFFICESUBSCRIPTION"
+# Setup Variables
+$OfficePremiumPlan = "O365_BUSINESS_PREMIUM"
 $TEAMSPLAN = "TEAMS_COMMERCIAL_TRIAL"
 $Location = "NZ"
 
+# Import Csv of new users
 $csvpath = "C:\Users\Aaron\Documents\AzureAD_Users.csv"
 $NewAzureAdUsers = Import-Csv -Path $csvpath
 
+# Setup User object from data imported from csv
 foreach ($NewAzureAdUser in $NewAzureAdUsers){
 $firstname = $NewAzureAdUser.firstname
 $lastname = $NewAzureAdUser.lastname
@@ -27,10 +30,11 @@ $UserPrincipal = $Firstname + "." + $Lastname + "@briscoegroup.co.nz"
 # Setup Password object for User Creation
 $PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
 $PasswordProfile.Password = $Password
+$PasswordProfile.EnforceChangePasswordPolicy = $false
 
 # Create New Azure AD User
-#New-AzureADUser -DisplayName $Displayname -PasswordProfile $PasswordProfile -UserPrincipalName $UserPrincipal -AccountEnabled $true -MailNickName $Firstname
-#Set-AzureADUser -ObjectID $UserPrincipal -UsageLocation $Location
+New-AzureADUser -DisplayName $Displayname -PasswordProfile $PasswordProfile -UserPrincipalName $UserPrincipal -AccountEnabled $true -MailNickName $Firstname
+Set-AzureADUser -ObjectID $UserPrincipal -UsageLocation $Location
 
 # Assign Office Licence if Required
 if($yes -contains $OfficeInstall){
